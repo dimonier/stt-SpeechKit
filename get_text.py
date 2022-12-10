@@ -36,7 +36,14 @@ def get_text_from_API(api_key, id, result_file_name):
         f = open(out_file_name + '.txt', 'w')
         for chunk in req['response']['chunks']:
             if chunk['channelTag'][0] == '1':
-                f.write(str(chunk['alternatives'][0]['text']) + '\n')
+                timecode_sec = int(str(chunk['alternatives'][0]['words'][0]['startTime']).split('.')[0].replace('s',''))
+                hh = timecode_sec // 3600
+                mm = (timecode_sec % 3600) // 60
+                ss = timecode_sec % 60
+                timecode = f'[{str(hh).zfill(2)}:{str(mm).zfill(2)}:{str(ss).zfill(2)}]'
+                text = str(chunk['alternatives'][0]['text'])
+#                print(f'{timecode} {text}\n')
+                f.write(f'{timecode} {text}\n')
         f.close()
     else:
         print("Not ready")

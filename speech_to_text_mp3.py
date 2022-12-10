@@ -79,4 +79,4 @@ if __name__ == '__main__':
 #        result_file_name = str(audio[:(len(audio) - 4)] + '.mp3')
         filelink = str(file_to_storage(file_path, config.BUCKET_NAME, audio))
         speech_to_text(config.API_KEY, filelink, txt_path)
-    print('Speech recognition completed')
+    print('Files sent for recognition')
