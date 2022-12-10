@@ -7,8 +7,8 @@ import config
 # Путь к этому скрипту
 app_path = os.path.dirname(__file__)
 
-# Путь откуда берём аудиозаписи формата .ogg
-ogg_path = os.path.join(app_path, 'ogg')
+# Путь откуда берём аудиозаписи формата .mp3
+mp3_path = os.path.join(app_path, 'mp3')
 
 # Путь куда кладём текст из результатов распознавания .txt
 txt_path = os.path.join(app_path, 'text')
@@ -48,7 +48,8 @@ def speech_to_text(api_key, filelink, txt_path):
             "specification": {
                 "languageCode": "ru-RU",
                 "model": "deferred-general",
-                "literature_text": True
+                "literature_text": True,
+                "audioEncoding": "MP3"
             }
         },
         "audio": {
@@ -70,12 +71,12 @@ def speech_to_text(api_key, filelink, txt_path):
         print(data, file = j)
 
 if __name__ == '__main__':
-    list_ogg = [line for line in os.listdir(path=ogg_path) if '.ogg' in line]
+    list_mp3 = [line for line in os.listdir(path=mp3_path) if '.mp3' in line]
 
-    for audio in list_ogg:
+    for audio in list_mp3:
         print(audio)
-        file_path = os.path.join(ogg_path, audio)
-#        result_file_name = str(audio[:(len(audio) - 4)] + '.ogg')
+        file_path = os.path.join(mp3_path, audio)
+#        result_file_name = str(audio[:(len(audio) - 4)] + '.mp3')
         filelink = str(file_to_storage(file_path, config.BUCKET_NAME, audio))
         speech_to_text(config.API_KEY, filelink, txt_path)
     print('Speech recognition completed')
